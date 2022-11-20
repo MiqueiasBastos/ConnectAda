@@ -23,11 +23,28 @@ formLogin.onsubmit = (event) => {
 
   try {
     usuarioSessao = Usuario.logar(usuario, senha);
+    ehAdministrador = usuarioSessao instanceof Administrador;
     formLogin.reset();
 
   } catch (error) {
     alert(error.message);
   }
-
   
 };
+
+const formCadastro = document.querySelector("#form-cadastro");
+
+formCadastro.onsubmit = (event) => {
+    event.preventDefault();
+    const form = new FormData(formCadastro);
+    const nomeCompleto = form.get("nome-completo");
+    const usuario = form.get("usuario");
+    const senha = form.get("senha");
+    const github = form.get("usuario-github");
+
+    usuarioSessao = new Usuario({nomeCompleto: nomeCompleto, usuario: usuario, senha: senha, github: github});
+    usuarioSessao.autenticar(usuario, senha);
+    ehAdministrador = false;
+    formCadastro.reset();
+    console.log(usuarioSessao);
+}
