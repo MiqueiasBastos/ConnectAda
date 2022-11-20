@@ -8,86 +8,96 @@
 - Comentar uma postagem;
  */
 
-import md5 from "./libs/md5.js";
+import md5 from "../libs/md5.js";
 
 export class Usuario {
-    #estaAutenticado = false;
-    #nomeCompleto;
-    #senha;
-    #usuario;
-    #github;
-    #amigos = [];
-    static listaUsuarios = [];
+  #estaAutenticado = false;
+  #nomeCompleto;
+  #senha;
+  #usuario;
+  #github;
+  #amigos = [];
+  static listaUsuarios = [];
 
-    constructor({ nomeCompleto, senha, usuario, github = '' }) {
-        if (
-            Usuario.listaUsuarios.findIndex((usuarioCadastrado) => {
-                return usuarioCadastrado.usuario === usuario;
-            }) !== -1
-        ) {
-            throw new Error("Usuário já cadastrado!");
-        }
-
-        this.#nomeCompleto = nomeCompleto;
-        this.#senha = md5(senha);
-        this.#usuario = usuario;
-        this.#github = github;
-
-        Usuario.listaUsuarios.push(this);
+  constructor({ nomeCompleto, senha, usuario, github = "" }) {
+    if (
+      Usuario.listaUsuarios.findIndex((usuarioCadastrado) => {
+        return usuarioCadastrado.usuario === usuario;
+      }) !== -1
+    ) {
+      throw new Error("Usuário já cadastrado!");
     }
 
-    autenticar(usuario, senha) {
-        if (usuario !== this.#usuario || md5(senha) !== this.#senha) {
-            throw new Error("Usuário e/ou senha inválidos");
-        }
+    this.#nomeCompleto = nomeCompleto;
+    this.#senha = md5(senha);
+    this.#usuario = usuario;
+    this.#github = github;
 
-        this.#estaAutenticado = true;
-    }
+    Usuario.listaUsuarios.push(this);
+  }
 
-    desconectar() {
-        this.#estaAutenticado = false;
-    }
+  static logar(usuario, senha) {
+    const index = Usuario.listaUsuarios.findIndex((usuarioCadastrado) => {
+      return usuarioCadastrado.usuario === usuario;
+    });
 
-    adicionarAmigo(usuario) {
-        this.#amigos.push(usuario);
-    }
+    if (index === -1) throw new Error("Usuário não encontrado");
 
-    removerAmigo(usuario) {
-        const index = this.#amigos.indexOf(usuario)
-        this.#amigos.splice(index, 1);
-    }
+    return Usuario.listaUsuarios[index].autenticar(usuario, senha);
+  }
 
-    criarPostagem(texto) {
-        if (!this.#estaAutenticado) {
-            throw new Error('Usuário não está autorizado')
-        }
-        new Postagem(
-            {
-                autor: this,
-                texto,
-            }
-        )
+  autenticar(usuario, senha) {
+    if (usuario !== this.#usuario || md5(senha) !== this.#senha) {
+      throw new Error("Usuário e/ou senha inválidos");
     }
 
-    removerPostagem(postagem) {
-        if (!this.#estaAutenticado) {
-            throw new Error('Usuário não está autorizado')
-        }
-        const index = Postagem.listaPostagens.indexOf(postagem);
-        Postagem.listaPostagens.splice(index, 1);
-    }
+    this.#estaAutenticado = true;
 
-    comentarPostagem(postagem, texto){
-      if(!this.#estaAutenticado) {
-        throw new Error('Usuário não autorizado')
-      }
-      postagem.adicionarComentario(texto, this)
+    return this;
+  }
+
+  desconectar() {
+    this.#estaAutenticado = false;
+  }
+
+  adicionarAmigo(usuario) {
+    this.#amigos.push(usuario);
+  }
+
+  removerAmigo(usuario) {
+    const index = this.#amigos.indexOf(usuario);
+    this.#amigos.splice(index, 1);
+  }
+
+  criarPostagem(texto) {
+    if (!this.#estaAutenticado) {
+      throw new Error("Usuário não está autorizado");
     }
-    
-    get usuario() {
-        return this.#usuario;
+    new Postagem({
+      autor: this,
+      texto,
+    });
+  }
+
+  removerPostagem(postagem) {
+    if (!this.#estaAutenticado) {
+      throw new Error("Usuário não está autorizado");
     }
-    get estaAutenticado(){
-        return this.#estaAutenticado;
+    const index = Postagem.listaPostagens.indexOf(postagem);
+    Postagem.listaPostagens.splice(index, 1);
+  }
+
+  comentarPostagem(postagem, texto) {
+    if (!this.#estaAutenticado) {
+      throw new Error("Usuário não autorizado");
     }
+    postagem.adicionarComentario(texto, this);
+  }
+
+  get usuario() {
+    return this.#usuario;
+  }
+  get estaAutenticado() {
+    return this.#estaAutenticado;
+  }
 }
