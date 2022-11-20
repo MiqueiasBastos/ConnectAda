@@ -18,4 +18,18 @@ class Postagem {
         return this.#data
     }
 
+    adicionarComentario(texto, autor) {
+        this.#comentarios.push(new Comentario({
+            texto,
+            autor
+        }))
+    }
+
+    removerComentario(comentario) {
+        const index = this.#comentarios.indexOf(comentario);
+
+        if(index !== -1){
+            this.#comentarios.splice(index, 1);
+        }
+    }
 }

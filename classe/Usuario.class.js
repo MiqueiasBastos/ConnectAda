@@ -77,6 +77,13 @@ class Usuario {
         Postagem.listaPostagens.splice(index, 1);
     }
 
+    comentarPostagem(postagem, texto){
+      if(!this.#estaAutenticado) {
+        throw new Error('Usuário não autorizado')
+      }
+      postagem.adicionarComentario(texto, this)
+    }
+    
     get usuario() {
         return this.#usuario;
     }
