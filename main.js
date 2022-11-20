@@ -25,26 +25,51 @@ formLogin.onsubmit = (event) => {
     usuarioSessao = Usuario.logar(usuario, senha);
     ehAdministrador = usuarioSessao instanceof Administrador;
     formLogin.reset();
+    mudarTela('feed');
 
   } catch (error) {
     alert(error.message);
   }
-  
+
 };
 
 const formCadastro = document.querySelector("#form-cadastro");
 
 formCadastro.onsubmit = (event) => {
-    event.preventDefault();
-    const form = new FormData(formCadastro);
-    const nomeCompleto = form.get("nome-completo");
-    const usuario = form.get("usuario");
-    const senha = form.get("senha");
-    const github = form.get("usuario-github");
+  event.preventDefault();
+  const form = new FormData(formCadastro);
+  const nomeCompleto = form.get("nome-completo");
+  const usuario = form.get("usuario");
+  const senha = form.get("senha");
+  const github = form.get("usuario-github");
 
-    usuarioSessao = new Usuario({nomeCompleto: nomeCompleto, usuario: usuario, senha: senha, github: github});
-    usuarioSessao.autenticar(usuario, senha);
-    ehAdministrador = false;
-    formCadastro.reset();
-    console.log(usuarioSessao);
+  usuarioSessao = new Usuario({ nomeCompleto: nomeCompleto, usuario: usuario, senha: senha, github: github });
+  usuarioSessao.autenticar(usuario, senha);
+  ehAdministrador = false;
+  formCadastro.reset();
+  // console.log(usuarioSessao);
+  mudarTela('feed');
+}
+
+const mudarTela = (tela) => {
+
+  const telaLogin = document.querySelector('#tela-login');
+  const telaFeed = document.querySelector('#tela-feed');
+
+  telaLogin.classList.replace('d-flex', 'd-none');
+  telaFeed.classList.replace('d-flex', 'd-none');
+
+  switch (tela) {
+    case 'login':
+      telaLogin.classList.replace('d-none', 'd-flex');
+      break;
+
+    case 'feed':
+      telaFeed.classList.replace('d-none', 'd-flex');
+      break;
+
+    default:
+      telaLogin.classList.replace('d-none', 'd-flex');
+      break;
+  }
 }
