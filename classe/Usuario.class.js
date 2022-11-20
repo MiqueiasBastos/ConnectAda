@@ -100,4 +100,13 @@ export class Usuario {
   get estaAutenticado() {
     return this.#estaAutenticado;
   }
+  get nomeCompleto() {
+    return this.#nomeCompleto;
+  }
+  get imagemPerfil(){
+    if(this.#github !== '') {
+      return `https://github.com/${this.#github}.png`;
+    }
+    return './assets/usuario-padrao.jpg';
+  }
 }

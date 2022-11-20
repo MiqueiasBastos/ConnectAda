@@ -7,7 +7,7 @@ new Usuario({
   nomeCompleto: "Aline Pereira",
   senha: "12345",
   usuario: "alinepereira",
-  github: "github.com/pereiraaline",
+  github: "pereiraaline",
 });
 
 let usuarioSessao;
@@ -25,6 +25,7 @@ formLogin.onsubmit = (event) => {
     usuarioSessao = Usuario.logar(usuario, senha);
     ehAdministrador = usuarioSessao instanceof Administrador;
     formLogin.reset();
+    renderizarFeed();
     mudarTela('feed');
 
   } catch (error) {
@@ -47,7 +48,11 @@ formCadastro.onsubmit = (event) => {
   usuarioSessao.autenticar(usuario, senha);
   ehAdministrador = false;
   formCadastro.reset();
-  // console.log(usuarioSessao);
+
+  const modal = bootstrap.Modal.getInstance(document.querySelector("#modal-cadastro"));
+  modal.hide();
+
+  renderizarFeed();
   mudarTela('feed');
 }
 
@@ -72,4 +77,19 @@ const mudarTela = (tela) => {
       telaLogin.classList.replace('d-none', 'd-flex');
       break;
   }
+}
+
+
+const renderizarFeed = () => {
+  const saudacao = document.querySelector('#header-saudacao');
+  saudacao.innerHTML = `Olá, ${usuarioSessao.nomeCompleto}`;
+
+  const imagensPerfil = [
+    document.querySelector('#postagem-imagem-perfil'),
+    document.querySelector('#header-imagem-perfil')
+  ];
+
+  imagensPerfil.forEach((imagem) => {
+    imagem.src = usuarioSessao.imagemPerfil
+  })
 }
