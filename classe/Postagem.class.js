@@ -32,4 +32,10 @@ class Postagem {
             this.#comentarios.splice(index, 1);
         }
     }
+
+    modificarTexto(texto){
+        this.#texto = texto
+    }
+
+
 }
