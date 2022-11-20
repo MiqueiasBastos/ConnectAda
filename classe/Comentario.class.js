@@ -1,4 +1,4 @@
-class Comentario {
+export class Comentario {
     #autor;
     #texto;
 

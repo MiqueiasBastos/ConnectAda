@@ -10,7 +10,7 @@
 
 import md5 from "./libs/md5.js";
 
-class Usuario {
+export class Usuario {
     #estaAutenticado = false;
     #nomeCompleto;
     #senha;
@@ -19,7 +19,7 @@ class Usuario {
     #amigos = [];
     static listaUsuarios = [];
 
-    constructor({ nomeCompleto, senha, usuario, github }) {
+    constructor({ nomeCompleto, senha, usuario, github = '' }) {
         if (
             Usuario.listaUsuarios.findIndex((usuarioCadastrado) => {
                 return usuarioCadastrado.usuario === usuario;
@@ -86,5 +86,8 @@ class Usuario {
     
     get usuario() {
         return this.#usuario;
+    }
+    get estaAutenticado(){
+        return this.#estaAutenticado;
     }
 }

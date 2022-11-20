@@ -1,4 +1,4 @@
-class Postagem {
+export class Postagem {
     #autor;
     #texto;
     #data;
