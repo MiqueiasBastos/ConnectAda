@@ -48,6 +48,15 @@ class Usuario {
     this.#estaAutenticado = false;
   }
 
+  adicionarAmigo (usuario) {
+    this.#amigos.push(usuario);
+  }
+
+  removerAmigo (usuario) {
+    const index = this.#amigos.indexOf(usuario)
+    this.#amigos.splice(index, 1);
+}
+
   get usuario() {
     return this.#usuario;
   }
