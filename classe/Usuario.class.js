@@ -10,20 +10,45 @@
 
 import md5 from "./libs/md5.js";
 
-class Usuario{
-    #estaAutenticado = false;
-    #nomeCompleto;
-    #senha;
-    #usuario;
-    #github;
-    #amigos = [];
+class Usuario {
+  #estaAutenticado = false;
+  #nomeCompleto;
+  #senha;
+  #usuario;
+  #github;
+  #amigos = [];
+  static listaUsuarios = [];
 
-    constructor({nomeCompleto, senha, usuario, github}){
-        this.#nomeCompleto = nomeCompleto
-        this.#senha = md5(senha)
-        this.#usuario = usuario
-        this.#github = github
+  constructor({ nomeCompleto, senha, usuario, github }) {
+    if (
+      Usuario.listaUsuarios.findIndex((usuarioCadastrado) => {
+        return usuarioCadastrado.usuario === usuario;
+      }) !== -1
+    ) {
+      throw new Error("Usuário já cadastrado!");
     }
 
+    this.#nomeCompleto = nomeCompleto;
+    this.#senha = md5(senha);
+    this.#usuario = usuario;
+    this.#github = github;
 
+    Usuario.listaUsuarios.push(this);
+  }
+
+  autenticar(usuario, senha) {
+    if (usuario !== this.#usuario || md5(senha) !== this.#senha) {
+      throw new Error("Usuário e/ou senha inválidos");
+    }
+
+    this.#estaAutenticado = true;
+  }
+
+  desconectar() {
+    this.#estaAutenticado = false;
+  }
+
+  get usuario() {
+    return this.#usuario;
+  }
 }
