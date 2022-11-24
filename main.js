@@ -93,3 +93,4 @@ const renderizarFeed = () => {
     imagem.src = usuarioSessao.imagemPerfil
   })
 }
+
