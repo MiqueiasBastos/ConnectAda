@@ -1,3 +1,5 @@
+import { Comentario } from "./Comentario.class.js";
+
 export class Postagem {
     #autor;
     #texto;
@@ -95,6 +97,12 @@ export class Postagem {
             <h6 class="mb-3">Comentários (${
                 this.#comentarios.length
             })</h6>
+            <form onsubmit="adicionarComentario(event)" data-indicePostagem="${indicePostagem}">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Digite seu comentário">
+                    <button class="btn btn-success btn-novo-comentario" type="submit">Comentar</button>
+                </div>
+            </form>
         </div>
     </div>`
         

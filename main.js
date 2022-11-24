@@ -95,7 +95,6 @@ const mudarTela = (tela) => {
   }
 }
 
-
 const renderizarFeed = () => {
   const saudacao = document.querySelector('#header-saudacao');
   saudacao.innerHTML = `Olá, ${usuarioSessao.nomeCompleto}`;
@@ -117,3 +116,15 @@ const renderizarFeed = () => {
 
 }
 
+function adicionarComentario(event) {
+  event.preventDefault();
+  const indicePostagem = event.target.getAttribute('data-indicePostagem')
+  const input = event.target.querySelector('input')
+  const postagem = Postagem.listaPostagens[indicePostagem]
+  postagem.adicionarComentario(input.value, usuarioSessao)
+
+  renderizarFeed()
+  console.log(postagem)
+}
+
+window.adicionarComentario = adicionarComentario
