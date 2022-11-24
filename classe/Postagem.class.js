@@ -15,6 +15,10 @@ export class Postagem {
     }
 
     get data() {
+        return this.#data
+    }
+
+    get dataFormatada() {
         const data = new Date(this.#data);
         return `${data.toLocaleString("pt-BR", {
             day: "numeric",
@@ -58,7 +62,7 @@ export class Postagem {
                             this.#autor.nomeCompleto
                         }</h6>
                         <span class="text-muted fst-italic">${
-                            this.data
+                            this.dataFormatada
                         }</span>
                     </div>
                 </div>

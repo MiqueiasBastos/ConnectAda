@@ -108,5 +108,12 @@ const renderizarFeed = () => {
   imagensPerfil.forEach((imagem) => {
     imagem.src = usuarioSessao.imagemPerfil
   })
+
+  const listaPostagens = document.querySelector('#postagens')
+  const cardsPostagens = Postagem.listaPostagens.map((postagem, index) => {
+    return postagem.renderizarCard(usuarioSessao, index)
+  }) 
+  listaPostagens.innerHTML = cardsPostagens.join('')
+
 }
 
