@@ -56,6 +56,22 @@ formCadastro.onsubmit = (event) => {
   mudarTela('feed');
 }
 
+const formPublicar = document.querySelector("#form-publicar");
+formPublicar.onsubmit = (event) => {
+  event.preventDefault();
+  const form = new FormData(formPublicar);
+  const descricao = form.get("descricao");
+
+  new Postagem({
+    autor: usuarioSessao,
+    texto: descricao,
+  })
+
+  formPublicar.reset();
+  renderizarFeed();
+  console.log(Postagem.listaPostagens);
+}
+
 const mudarTela = (tela) => {
 
   const telaLogin = document.querySelector('#tela-login');
