@@ -10,6 +10,20 @@ new Usuario({
   github: "pereiraaline",
 });
 
+new Usuario({
+  nomeCompleto: "Paula Herbella",
+  senha: "12345",
+  usuario: "paulaherbella",
+  github: "paulaherbella",
+});
+
+new Administrador({
+  nomeCompleto: "Administrador",
+  senha: "12345",
+  usuario: "admin",
+  github: "",
+});
+
 let usuarioSessao;
 let ehAdministrador;
 
@@ -30,6 +44,7 @@ formLogin.onsubmit = (event) => {
 
   } catch (error) {
     alert(error.message);
+    // console.log(error);
   }
 
 };
@@ -135,6 +150,30 @@ const renderizarFeed = () => {
     return postagem.renderizarCard(usuarioSessao, index)
   })
   listaPostagens.innerHTML = cardsPostagens.join('')
+
+  const listaUsuarios = document.querySelector('#lista-usuarios')
+  const itensUsuarios = Usuario.listaUsuarios.map((usuario) => {
+    return usuario.renderizarItemModal(usuarioSessao, ehAdministrador)
+  })
+  listaUsuarios.innerHTML = itensUsuarios.join('')
+  listaUsuarios.querySelector("li:first-child").classList.remove("mt-3");
+    listaUsuarios
+        .querySelector("li:last-child")
+        .classList.remove("pb-3", "border-bottom");
+
+  const listaAmigos = document.querySelector('#lista-amigos')
+  const itensAmigos = usuarioSessao.amigos.map((usuario) => {
+    return usuario.renderizarItemModal(usuarioSessao, ehAdministrador)
+  })
+  listaAmigos.innerHTML = itensAmigos.join('')
+  if (usuarioSessao.amigos.length === 0) {
+    listaAmigos.innerHTML =
+        '<li class="text-center p-3">Você ainda não tem ninguém na lista de amigos.</li>';
+}
+  listaAmigos.querySelector("li:first-child").classList.remove("mt-3");
+    listaAmigos
+        .querySelector("li:last-child")
+        .classList.remove("pb-3", "border-bottom");
 
 }
 

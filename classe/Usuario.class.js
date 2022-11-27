@@ -61,6 +61,11 @@ export class Usuario {
     this.#estaAutenticado = false;
   }
 
+  ehAmigo(usuario) {
+    const index = this.#amigos.indexOf(usuario);
+    return index !== -1
+  }
+
   adicionarAmigo(usuario) {
     this.#amigos.push(usuario);
   }
@@ -95,6 +100,40 @@ export class Usuario {
     postagem.adicionarComentario(texto, this);
   }
 
+  renderizarItemModal(usuarioSessao, ehAdministrador) {
+    return `
+        <li class="d-flex justify-content-between align-items-center mt-3 border-bottom pb-3">
+            <div class="d-flex align-items-center">
+                <img src="${this.imagemPerfil}" class="rounded-circle me-3"
+                    height="50" width="50" alt="">
+                <h6>${this.#nomeCompleto}</h6>
+            </div>
+            <div>
+                ${
+                    usuarioSessao !== this
+                        ? this.ehAmigo(usuarioSessao)
+                            ? `<button type="button" class="btn btn-outline-success" onclick="removerAmigo('${
+                                  this.#usuario
+                              }')"><i class="bi bi-person-check-fill"></i> Amigo</button>`
+                            : `<button type="button" class="btn btn-success" onclick="adicionarAmigo('${
+                                  this.#usuario
+                              }')"><i class="bi bi-person-plus-fill"></i> Adicionar</button>`
+                        : ""
+                }
+                ${
+                    usuarioSessao !== this
+                        ? ehAdministrador
+                            ? `<button type="button" class="btn btn-outline-danger" onclick="removerUsuario('${
+                                  this.#usuario
+                              }')"><i class="bi bi-trash3-fill"></i> Excluir</button>`
+                            : ""
+                        : ""
+                }
+            </div>
+        </li>
+    `;
+}
+
   get usuario() {
     return this.#usuario;
   }
@@ -110,4 +149,8 @@ export class Usuario {
     }
     return './assets/usuario-padrao.jpg';
   }
+  get amigos() {
+    return this.#amigos;
+  }
 }
+
