@@ -100,7 +100,7 @@ export class Usuario {
     postagem.adicionarComentario(texto, this);
   }
 
-  renderizarItemModal(usuarioSessao, ehAdministrador) {
+  renderizarItemModal(usuarioSessao, ehAdministrador = false) {
     return `
         <li class="d-flex justify-content-between align-items-center mt-3 border-bottom pb-3">
             <div class="d-flex align-items-center">
@@ -123,7 +123,7 @@ export class Usuario {
                 ${
                     usuarioSessao !== this
                         ? ehAdministrador
-                            ? `<button type="button" class="btn btn-outline-danger" onclick="removerUsuario('${
+                            ? `<button type="button" class="btn btn-danger" onclick="removerUsuario('${
                                   this.#usuario
                               }')"><i class="bi bi-trash3-fill"></i> Excluir</button>`
                             : ""

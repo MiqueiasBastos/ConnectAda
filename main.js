@@ -17,6 +17,26 @@ new Usuario({
   github: "paulaherbella",
 });
 
+new Usuario({
+  nomeCompleto: "Miquéias Bastos",
+  senha: "12345",
+  usuario: "miqueiasbastos",
+  github: "miqueiasbastos",
+});
+
+new Usuario({
+  nomeCompleto: "Jady Godoi",
+  senha: "12345",
+  usuario: "jadygodoi",
+  github: "jady-sm-godoi",
+});
+new Usuario({
+  nomeCompleto: "Julia Biondi",
+  senha: "12345",
+  usuario: "juliabiondi",
+  github: "biondij",
+});
+
 new Administrador({
   nomeCompleto: "Administrador",
   senha: "12345",
@@ -147,9 +167,15 @@ const renderizarFeed = () => {
 
   const listaPostagens = document.querySelector('#postagens')
   const cardsPostagens = Postagem.listaPostagens.map((postagem, index) => {
-    return postagem.renderizarCard(usuarioSessao, index)
+    if(postagem.autor === usuarioSessao || usuarioSessao.ehAmigo(postagem.autor)){
+      return postagem.renderizarCard(usuarioSessao, index)
+    }
   })
-  listaPostagens.innerHTML = cardsPostagens.join('')
+  cardsPostagens.join('').length > 0
+    ? listaPostagens.innerHTML = cardsPostagens.join('')
+    : listaPostagens.innerHTML = '<div class="w-100 d-flex flex-grow-1 justify-content-center align-items-center">Nenhuma postagem, adicione amigos e veja aqui as atualizações</div>'
+
+
 
   const listaUsuarios = document.querySelector('#lista-usuarios')
   const itensUsuarios = Usuario.listaUsuarios.map((usuario) => {
@@ -163,7 +189,7 @@ const renderizarFeed = () => {
 
   const listaAmigos = document.querySelector('#lista-amigos')
   const itensAmigos = usuarioSessao.amigos.map((usuario) => {
-    return usuario.renderizarItemModal(usuarioSessao, ehAdministrador)
+    return usuario.renderizarItemModal(usuarioSessao)
   })
   listaAmigos.innerHTML = itensAmigos.join('')
   if (usuarioSessao.amigos.length === 0) {
