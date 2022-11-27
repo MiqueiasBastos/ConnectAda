@@ -157,9 +157,9 @@ const renderizarFeed = () => {
   })
   listaUsuarios.innerHTML = itensUsuarios.join('')
   listaUsuarios.querySelector("li:first-child").classList.remove("mt-3");
-    listaUsuarios
-        .querySelector("li:last-child")
-        .classList.remove("pb-3", "border-bottom");
+  listaUsuarios
+    .querySelector("li:last-child")
+    .classList.remove("pb-3", "border-bottom");
 
   const listaAmigos = document.querySelector('#lista-amigos')
   const itensAmigos = usuarioSessao.amigos.map((usuario) => {
@@ -168,12 +168,12 @@ const renderizarFeed = () => {
   listaAmigos.innerHTML = itensAmigos.join('')
   if (usuarioSessao.amigos.length === 0) {
     listaAmigos.innerHTML =
-        '<li class="text-center p-3">Você ainda não tem ninguém na lista de amigos.</li>';
-}
+      '<li class="text-center p-3">Você ainda não tem ninguém na lista de amigos.</li>';
+  }
   listaAmigos.querySelector("li:first-child").classList.remove("mt-3");
-    listaAmigos
-        .querySelector("li:last-child")
-        .classList.remove("pb-3", "border-bottom");
+  listaAmigos
+    .querySelector("li:last-child")
+    .classList.remove("pb-3", "border-bottom");
 }
 
 function adicionarComentario(event) {
@@ -209,7 +209,7 @@ botaoSair.addEventListener('click', () => {
   mudarTela('login');
 })
 
-function adicionarAmigo(nomeUsuario){
+function adicionarAmigo(nomeUsuario) {
   const index = Usuario.listaUsuarios.findIndex((usuarioCadastrado) => {
     return usuarioCadastrado.usuario === nomeUsuario
   })
@@ -221,7 +221,7 @@ function adicionarAmigo(nomeUsuario){
   renderizarFeed()
 }
 
-function removerAmigo(nomeUsuario){
+function removerAmigo(nomeUsuario) {
   const index = Usuario.listaUsuarios.findIndex((usuarioCadastrado) => {
     return usuarioCadastrado.usuario === nomeUsuario
   })
@@ -233,9 +233,41 @@ function removerAmigo(nomeUsuario){
   renderizarFeed()
 }
 
+function removerUsuario(nomeUsuario) {
+  if (ehAdministrador) {
+    const index = Usuario.listaUsuarios.findIndex((usuarioCadastrado) => {
+      return usuarioCadastrado.usuario === nomeUsuario
+    })
+    const usuarioEscolhido = Usuario.listaUsuarios[index];
+    Postagem.listaPostagens.forEach((postagem) => {
+      if (postagem.autor === usuarioEscolhido) {
+        usuarioSessao.removerPostagem(postagem);
+        return;
+      } else {
+        postagem.comentarios.forEach((comentario) => {
+          if (comentario.autor === usuarioEscolhido) {
+            postagem.removerComentario(comentario);
+            return;
+          }
+        })
+      }
+    })
+    Usuario.listaUsuarios.forEach((usuario) => {
+      usuario.amigos.forEach((amigo) => {
+        if (amigo === usuarioEscolhido) {
+          usuario.removerAmigo(usuarioEscolhido);
+        }
+      })
+    })
+    usuarioSessao.removerUsuario(usuarioEscolhido);
+    renderizarFeed()
+  }
+}
+
 window.adicionarComentario = adicionarComentario
 window.apagarComentario = apagarComentario
 window.apagarPostagem = apagarPostagem
 window.adicionarAmigo = adicionarAmigo
 window.removerAmigo = removerAmigo
+window.removerUsuario = removerUsuario
 

@@ -20,7 +20,7 @@ export class Postagem {
         return this.#data
     }
 
-    get comentarios(){
+    get comentarios() {
         return this.#comentarios
     }
 
@@ -39,6 +39,11 @@ export class Postagem {
     get texto() {
         return this.#texto;
     }
+
+    get autor() {
+        return this.#autor;
+    }
+
     adicionarComentario(texto, autor) {
         this.#comentarios.push(new Comentario({
             texto,
@@ -49,35 +54,31 @@ export class Postagem {
     removerComentario(comentario) {
         const index = this.#comentarios.indexOf(comentario);
 
-        if(index !== -1){
+        if (index !== -1) {
             this.#comentarios.splice(index, 1);
         }
     }
 
-    modificarTexto(texto){
+    modificarTexto(texto) {
         this.#texto = texto
     }
 
-    renderizarCard(usuarioSessao, indicePostagem){
+    renderizarCard(usuarioSessao, indicePostagem) {
         return `<div class="card w-100 mt-3 shadow-sm">
         <div class="card-body">
             <div class="d-flex align-items-center mb-3 justify-content-between">
                 <div class="d-flex">
-                    <img src="${
-                        this.#autor.imagemPerfil
-                    }" class="rounded-circle me-3" height="45" alt="">
+                    <img src="${this.#autor.imagemPerfil
+            }" class="rounded-circle me-3" height="45" alt="">
                     <div>
-                        <h6 class="card-title m-0">${
-                            this.#autor.nomeCompleto
-                        }</h6>
-                        <span class="text-muted fst-italic">${
-                            this.dataFormatada
-                        }</span>
+                        <h6 class="card-title m-0">${this.#autor.nomeCompleto
+            }</h6>
+                        <span class="text-muted fst-italic">${this.dataFormatada
+            }</span>
                     </div>
                 </div>
-                ${
-                    usuarioSessao === this.#autor
-                        ? `
+                ${usuarioSessao === this.#autor
+                ? `
                             <div class="dropdown">
                                 <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-three-dots-vertical"></i>
@@ -96,24 +97,23 @@ export class Postagem {
                                 </ul>
                             </div>
                         `
-                        : ""
-                }
+                : ""
+            }
             </div>
             <p class="card-text">${this.#texto}</p>
             <hr>
-            <h6 class="mb-3">Comentários (${
-                this.#comentarios.length
+            <h6 class="mb-3">Comentários (${this.#comentarios.length
             })</h6>
             <ul class="list-unstyled">
                         ${this.#comentarios
-                            .map((comentario, indiceComentario) =>
-                                comentario.renderizar(
-                                    usuarioSessao,
-                                    indicePostagem,
-                                    indiceComentario
-                                )
-                            )
-                            .join("")}
+                .map((comentario, indiceComentario) =>
+                    comentario.renderizar(
+                        usuarioSessao,
+                        indicePostagem,
+                        indiceComentario
+                    )
+                )
+                .join("")}
                     </ul>
             <form onsubmit="adicionarComentario(event)" data-indicePostagem="${indicePostagem}">
                 <div class="input-group">
@@ -123,7 +123,7 @@ export class Postagem {
             </form>
         </div>
     </div>`
-        
+
     }
 
 }
