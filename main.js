@@ -127,11 +127,21 @@ function adicionarComentario(event) {
 }
 
 function apagarComentario(indicePostagem, indiceComentario){
-  const comentarios = Postagem.listaPostagens[indicePostagem].comentarios
+  const postagem = Postagem.listaPostagens[indicePostagem]
+  const comentario = postagem.comentarios[indiceComentario]
+  postagem.removerComentario(comentario)
+  
+  renderizarFeed()
+}
 
-  comentarios.splice(indiceComentario, 1)
+function apagarPostagem(indicePostagem){
+  const postagem = Postagem.listaPostagens[indicePostagem]
+
+  usuarioSessao.removerPostagem(postagem)
   renderizarFeed()
 }
 
 window.adicionarComentario = adicionarComentario
 window.apagarComentario = apagarComentario
+window.apagarPostagem = apagarPostagem
+

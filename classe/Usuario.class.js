@@ -9,6 +9,7 @@
  */
 
 import md5 from "../libs/md5.js";
+import { Postagem } from "./Postagem.class.js";
 
 export class Usuario {
   #estaAutenticado = false;
