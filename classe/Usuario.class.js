@@ -112,9 +112,9 @@ export class Usuario {
                 ${
                     usuarioSessao !== this
                         ? this.ehAmigo(usuarioSessao)
-                            ? `<button type="button" class="btn btn-outline-success" onclick="removerAmigo('${
+                            ? `<button type="button" class="btn btn-outline-danger" onclick="removerAmigo('${
                                   this.#usuario
-                              }')"><i class="bi bi-person-check-fill"></i> Amigo</button>`
+                              }')"><i class="bi bi-trash3-fill"></i> Remover amigo</button>`
                             : `<button type="button" class="btn btn-success" onclick="adicionarAmigo('${
                                   this.#usuario
                               }')"><i class="bi bi-person-plus-fill"></i> Adicionar</button>`

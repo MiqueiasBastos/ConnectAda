@@ -174,7 +174,6 @@ const renderizarFeed = () => {
     listaAmigos
         .querySelector("li:last-child")
         .classList.remove("pb-3", "border-bottom");
-
 }
 
 function adicionarComentario(event) {
@@ -210,7 +209,33 @@ botaoSair.addEventListener('click', () => {
   mudarTela('login');
 })
 
+function adicionarAmigo(nomeUsuario){
+  const index = Usuario.listaUsuarios.findIndex((usuarioCadastrado) => {
+    return usuarioCadastrado.usuario === nomeUsuario
+  })
+
+  const usuarioEscolhido = Usuario.listaUsuarios[index]
+  usuarioSessao.adicionarAmigo(usuarioEscolhido)
+  usuarioEscolhido.adicionarAmigo(usuarioSessao)
+
+  renderizarFeed()
+}
+
+function removerAmigo(nomeUsuario){
+  const index = Usuario.listaUsuarios.findIndex((usuarioCadastrado) => {
+    return usuarioCadastrado.usuario === nomeUsuario
+  })
+
+  const usuarioEscolhido = Usuario.listaUsuarios[index]
+  usuarioSessao.removerAmigo(usuarioEscolhido)
+  usuarioEscolhido.removerAmigo(usuarioSessao)
+
+  renderizarFeed()
+}
+
 window.adicionarComentario = adicionarComentario
 window.apagarComentario = apagarComentario
 window.apagarPostagem = apagarPostagem
+window.adicionarAmigo = adicionarAmigo
+window.removerAmigo = removerAmigo
 
