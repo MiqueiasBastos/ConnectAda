@@ -85,12 +85,12 @@ modalEditarPostagem.addEventListener("show.bs.modal", (event) => {
   inputDescricao.value = postagem.texto;
 
   botaoSalvar.onclick = function (event) {
-      event.preventDefault();
-      postagem.modificarTexto(inputDescricao.value);
+    event.preventDefault();
+    postagem.modificarTexto(inputDescricao.value);
 
-      const modal = bootstrap.Modal.getInstance(modalEditarPostagem);
-      modal.hide();
-      renderizarFeed();
+    const modal = bootstrap.Modal.getInstance(modalEditarPostagem);
+    modal.hide();
+    renderizarFeed();
   };
 });
 
@@ -133,7 +133,7 @@ const renderizarFeed = () => {
   const listaPostagens = document.querySelector('#postagens')
   const cardsPostagens = Postagem.listaPostagens.map((postagem, index) => {
     return postagem.renderizarCard(usuarioSessao, index)
-  }) 
+  })
   listaPostagens.innerHTML = cardsPostagens.join('')
 
 }
@@ -148,20 +148,28 @@ function adicionarComentario(event) {
   renderizarFeed()
 }
 
-function apagarComentario(indicePostagem, indiceComentario){
+function apagarComentario(indicePostagem, indiceComentario) {
   const postagem = Postagem.listaPostagens[indicePostagem]
   const comentario = postagem.comentarios[indiceComentario]
   postagem.removerComentario(comentario)
-  
+
   renderizarFeed()
 }
 
-function apagarPostagem(indicePostagem){
+function apagarPostagem(indicePostagem) {
   const postagem = Postagem.listaPostagens[indicePostagem]
 
   usuarioSessao.removerPostagem(postagem)
   renderizarFeed()
 }
+
+const botaoSair = document.querySelector('#btn-sair')
+botaoSair.addEventListener('click', () => {
+  usuarioSessao.desconectar();
+  usuarioSessao = undefined;
+  ehAdministrador = false;
+  mudarTela('login');
+})
 
 window.adicionarComentario = adicionarComentario
 window.apagarComentario = apagarComentario
