@@ -124,7 +124,14 @@ function adicionarComentario(event) {
   postagem.adicionarComentario(input.value, usuarioSessao)
 
   renderizarFeed()
-  console.log(postagem)
+}
+
+function apagarComentario(indicePostagem, indiceComentario){
+  const comentarios = Postagem.listaPostagens[indicePostagem].comentarios
+
+  comentarios.splice(indiceComentario, 1)
+  renderizarFeed()
 }
 
 window.adicionarComentario = adicionarComentario
+window.apagarComentario = apagarComentario

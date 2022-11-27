@@ -20,6 +20,10 @@ export class Postagem {
         return this.#data
     }
 
+    get comentarios(){
+        return this.#comentarios
+    }
+
     get dataFormatada() {
         const data = new Date(this.#data);
         return `${data.toLocaleString("pt-BR", {
@@ -97,6 +101,17 @@ export class Postagem {
             <h6 class="mb-3">Comentários (${
                 this.#comentarios.length
             })</h6>
+            <ul class="list-unstyled">
+                        ${this.#comentarios
+                            .map((comentario, indiceComentario) =>
+                                comentario.renderizar(
+                                    usuarioSessao,
+                                    indicePostagem,
+                                    indiceComentario
+                                )
+                            )
+                            .join("")}
+                    </ul>
             <form onsubmit="adicionarComentario(event)" data-indicePostagem="${indicePostagem}">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Digite seu comentário">
