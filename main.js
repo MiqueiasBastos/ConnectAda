@@ -71,6 +71,28 @@ formPublicar.onsubmit = (event) => {
   renderizarFeed();
   console.log(Postagem.listaPostagens);
 }
+const modalEditarPostagem = document.querySelector("#modal-editar-postagem");
+
+modalEditarPostagem.addEventListener("show.bs.modal", (event) => {
+  const botaoModal = event.relatedTarget;
+  const indicePostagem = botaoModal.getAttribute("data-bs-id");
+
+  const postagem = Postagem.listaPostagens[indicePostagem];
+
+  const inputDescricao = modalEditarPostagem.querySelector(".modal-body input");
+  const botaoSalvar = modalEditarPostagem.querySelector(".modal-body  button");
+
+  inputDescricao.value = postagem.texto;
+
+  botaoSalvar.onclick = function (event) {
+      event.preventDefault();
+      postagem.modificarTexto(inputDescricao.value);
+
+      const modal = bootstrap.Modal.getInstance(modalEditarPostagem);
+      modal.hide();
+      renderizarFeed();
+  };
+});
 
 const mudarTela = (tela) => {
 

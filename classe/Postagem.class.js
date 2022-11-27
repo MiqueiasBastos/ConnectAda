@@ -36,6 +36,9 @@ export class Postagem {
         })}`;
     }
 
+    get texto() {
+        return this.#texto;
+    }
     adicionarComentario(texto, autor) {
         this.#comentarios.push(new Comentario({
             texto,
