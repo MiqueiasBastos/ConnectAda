@@ -1,5 +1,5 @@
 /**
- * A entidade `Usuario` deve ser capaz de:
+A entidade `Usuario` deve ser capaz de:
 
 - Autenticar um usuário (verificar se nome de usuário e senha estão corretos);
 - Adicionar outro usuário à lista de amigos;
@@ -30,13 +30,33 @@ export class Usuario {
     }
 
     this.#nomeCompleto = nomeCompleto;
-    this.#senha = md5(senha);
+    this.#senha = md5(senha); //biblioteca para fazer o rash da senha
     this.#usuario = usuario;
     this.#github = github;
 
     Usuario.listaUsuarios.push(this);
   }
 
+  get usuario() {
+    return this.#usuario;
+  }
+  get estaAutenticado() {
+    return this.#estaAutenticado;
+  }
+  get nomeCompleto() {
+    return this.#nomeCompleto;
+  }
+  get imagemPerfil(){
+    if(this.#github !== '') {
+      return `https://github.com/${this.#github}.png`;
+    }
+    return './assets/usuario-padrao.jpg';
+  }
+  get amigos() {
+    return this.#amigos;
+  }
+
+  //verifica se o usuarios existe e chama para autenticar
   static logar(usuario, senha) {
     const index = Usuario.listaUsuarios.findIndex((usuarioCadastrado) => {
       return usuarioCadastrado.usuario === usuario;
@@ -47,13 +67,13 @@ export class Usuario {
     return Usuario.listaUsuarios[index].autenticar(usuario, senha);
   }
 
+  //verifica usuario e senha se estão corretos
   autenticar(usuario, senha) {
     if (usuario !== this.#usuario || md5(senha) !== this.#senha) {
       throw new Error("Usuário e/ou senha inválidos");
     }
 
     this.#estaAutenticado = true;
-
     return this;
   }
 
@@ -132,25 +152,6 @@ export class Usuario {
             </div>
         </li>
     `;
-}
-
-  get usuario() {
-    return this.#usuario;
-  }
-  get estaAutenticado() {
-    return this.#estaAutenticado;
-  }
-  get nomeCompleto() {
-    return this.#nomeCompleto;
-  }
-  get imagemPerfil(){
-    if(this.#github !== '') {
-      return `https://github.com/${this.#github}.png`;
-    }
-    return './assets/usuario-padrao.jpg';
-  }
-  get amigos() {
-    return this.#amigos;
   }
 }
 

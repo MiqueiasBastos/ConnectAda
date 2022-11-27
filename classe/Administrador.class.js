@@ -1,3 +1,8 @@
+/*
+A entidade `Administrador` deve ser uma especialização de `Usuario`. 
+Apenas um administrador deve ser capaz de excluir um usuário.
+*/
+
 import { Usuario } from "./Usuario.class.js";
 
 export class Administrador extends Usuario{

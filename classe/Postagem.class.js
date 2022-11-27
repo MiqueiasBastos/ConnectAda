@@ -1,3 +1,11 @@
+/*
+A entidade `Postagem` deve ser capaz de:
+
+- Apagar comentários;
+- Modificar o título
+- Modificar a descrição;
+*/
+
 import { Comentario } from "./Comentario.class.js";
 
 export class Postagem {
@@ -123,7 +131,5 @@ export class Postagem {
             </form>
         </div>
     </div>`
-
     }
-
 }
