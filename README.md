@@ -1,5 +1,13 @@
 # Projeto Final - Rede Social (Connect Ada)
 
+## Grupo 2:
+
+- Aline Domingues Pereira
+- Jady Sobjak de Mello Godoi
+- Julia Biondi Martins
+- Miquéias Ribeiro de Bastos
+- Paula da Cruz Herbella Pereira
+
 ## Objetivo
 
 Desenvolver as entidades de uma rede social.
