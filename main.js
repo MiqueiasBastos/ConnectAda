@@ -158,17 +158,21 @@ formCadastro.onsubmit = (event) => {
   const senha = form.get("senha"); //input senha
   const github = form.get("usuario-github"); //input github (para foto)
 
-  usuarioSessao = new Usuario({ nomeCompleto: nomeCompleto, usuario: usuario, senha: senha, github: github });
-  usuarioSessao.autenticar(usuario, senha);
-  ehAdministrador = false;
-  formCadastro.reset();
+  try {
+    usuarioSessao = new Usuario({ nomeCompleto: nomeCompleto, usuario: usuario, senha: senha, github: github });
+    usuarioSessao.autenticar(usuario, senha);
+    ehAdministrador = false;
+    formCadastro.reset();
 
-  //para fechar a modal(fonte Bootstrap)
-  const modal = bootstrap.Modal.getInstance(document.querySelector("#modal-cadastro"));
-  modal.hide();
+    //para fechar a modal(fonte Bootstrap)
+    const modal = bootstrap.Modal.getInstance(document.querySelector("#modal-cadastro"));
+    modal.hide();
 
-  renderizarFeed();
-  mudarTela('feed');
+    renderizarFeed();
+    mudarTela('feed');
+  } catch (error) {
+    alert(error.message);
+  }
 }
 
 
